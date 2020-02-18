@@ -1,0 +1,34 @@
+---
+title: "enrollment"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(janitor)
+library(tidyverse)
+library(reprex)
+```
+
+
+```{r}
+x <- read_excel("class_enrollment_summary_by_term2.18.20.xlsx",
+                skip = 3) %>%
+  clean_names() %>%
+  filter(! is.na(course_name))
+```
+
+```{r}
+x %>%
+  group_by(department) %>%
+  summarize(total = sum(total))
+
+```
+
+
+
+
+
+
+
