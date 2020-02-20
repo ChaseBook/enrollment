@@ -8,21 +8,27 @@ knitr::opts_chunk$set(echo = TRUE)
 library(readxl)
 library(janitor)
 library(tidyverse)
-library(reprex)
+library(reprex) 
 ```
 
 
 ```{r}
-x <- read_excel("class_enrollment_summary_by_term2.18.20.xlsx",
+
+x_2020 <- read_excel("class_enrollment_summary_by_term2.18.20.xlsx",
+                skip = 3) %>%
+  clean_names() %>%
+  filter(! is.na(course_name))
+
+x_2019 <-read_excel("class_enrollment_summary_by_term_3.22.19_0.xlsx",
                 skip = 3) %>%
   clean_names() %>%
   filter(! is.na(course_name))
 ```
 
 ```{r}
-x %>%
-  group_by(department) %>%
-  summarize(total = sum(total))
+x_2020 %>%
+  anti_join(x_2019, by = "course_title")
+
 
 ```
 
